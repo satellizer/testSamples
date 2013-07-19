@@ -1,0 +1,19 @@
+﻿<travelsky>
+	<cont>
+		<color>1</color>
+		<image>/image/763264</image>
+		<material>1</material>
+		<note>extreme big</note>
+		<pkgtype>2</pkgtype>
+		<type>2</type>
+		<wtinterval>1</wtinterval>
+	</cont>
+	<msgname>uploadreqrcdrsp</msgname>
+	<msgsender>clientserver</msgsender>
+	<result>
+		<rspcode>0</rspcode>
+		<rspdesc>OK</rspdesc>
+	</result>
+	<timestamp>20130125111700</timestamp>
+	<transactionid>123456</transactionid>
+</travelsky>
