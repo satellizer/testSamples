@@ -1,3 +1,5 @@
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.Hashtable;
 import java.util.concurrent.Semaphore;
 
@@ -7,17 +9,19 @@ abstract class Base {
     void g() {
     };
 
-    private int a;
+    private int a = 0;
 
 }
 
 class A extends Base {
+
     void f() {
         System.out.println("A()");
     }
 }
 
 class B extends A {
+
     void f() {
         System.out.println("B()");
     }
@@ -41,7 +45,6 @@ class E extends B implements D {
         System.out.println(a + b);
 
     }
-
 }
 
 public class test5 {
@@ -51,6 +54,8 @@ public class test5 {
         A b = new B();
         a.f();
         b.f();
+        D d = new E();
+        d.h();
 
     }
 }

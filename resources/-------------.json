@@ -1,0 +1,32 @@
+{
+    "msgname":"aythtktrsp",
+    "transactionid":"1379926703507",
+    "timestamp":"20130923165823",
+    "msgsender":"portal",
+    "result":{
+        "rspcode":"0",
+        "rspdesc":"成功"
+    },
+    "cont":{
+        "passengername":"谢树强",
+        "ticketno":"784-2391771838",
+        "fare":"1190.00",
+        "airportconstructionfee":"50.00",
+        "fuelcosts":"120.00",
+        "totalamount":"1360.0",
+        "currencytype":"CNY",
+        "segment":{
+            "segmentindex":"1",
+            "airlinecode":"CZ3999",
+            "depdate":"9月18日",
+            "deptime":"15:00",
+            "cabin":"G",
+            "baggageweight":"20",
+            "airlinename":"中国南方航空公司",
+            "depairport":"广州",
+            "arrairport":"北京",
+            "ticketstatus":"已起飞"
+        },
+        "authenticity":1
+    }
+}

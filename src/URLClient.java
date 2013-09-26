@@ -5,9 +5,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Random;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 import net.sf.json.JSONObject;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.time.StopWatch;
 
@@ -17,6 +23,54 @@ import sun.misc.BASE64Encoder;
 public class URLClient {
     StringBuilder sb = new StringBuilder();
 
+    private static byte[] encrypt(byte[] keyBytes, byte[] srcBytes) throws Exception {
+        if (keyBytes == null || srcBytes == null) {
+            return null;
+        }
+        SecretKeySpec skeySpec = new SecretKeySpec(keyBytes, "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+        byte[] encrypted = cipher.doFinal(srcBytes);
+        return encrypted;
+    }
+
+    public static String securityDoCipher(String rawJson) throws Exception {
+        int keylength = 16;
+        byte[] key = new byte[keylength];
+        Random r = new Random();
+        r.setSeed(Calendar.getInstance().getTimeInMillis());
+
+        for (int i = 0; i < keylength; i++) {
+            if (r.nextInt(2) == 0) {
+                key[i] = (byte) ((r.nextInt(26) & 0xff) + 'A');
+            } else {
+                key[i] = (byte) ((r.nextInt(10) & 0xff) + '0');
+            }
+        }
+        byte[] encrypted = encrypt(key, rawJson.getBytes("utf-8"));
+        String cipherHex = new String(Hex.encodeHex(encrypted, false));
+        StringBuffer sb = new StringBuffer();
+        int i = 0;
+        sb.append(cipherHex.charAt(i++));
+        sb.append(cipherHex.charAt(i++));
+        JSONObject jo = JSONObject.fromObject(rawJson);
+        String transactionid = jo.getString("transactionid");
+        String timestamp = jo.getString("timestamp");
+        keylength = keylength + transactionid.length() + timestamp.length();
+        sb.append((char) ((keylength & 0x3fc0) >> 6));
+        sb.append((char) ((keylength & 0x30) >> 4));
+        sb.append((char) ((keylength & 0xc) >> 2));
+        sb.append((char) ((keylength & 0x3) >> 0));
+
+        sb.append(transactionid);
+        sb.append(timestamp);
+        for (byte c : key) {
+            sb.append((char) c);
+        }
+        sb.append(cipherHex.substring(2));
+        return sb.toString();
+    }
+
     public static void main(String[] args) {
         /*
          * { 　　"msgname": "qryrecognizersp", 　　"transactionid": "123456", 　　"msgsender":"usrclient", "timestamp":"20130125111700", "cont":{ 　　　　
@@ -24,7 +78,8 @@ public class URLClient {
          * 
          * }
          */
-        // Thread[] ts1 = new Reg[5];
+
+        // Thread[] ts1 = new Reg[1];
         //
         // for (int i = 0; i < ts1.length; i++) {
         // ts1[i] = new URLClient.Reg();
@@ -32,13 +87,24 @@ public class URLClient {
         // }
 
         {
-            Thread[] ts3 = new Qry[5];
+            Thread[] ts3 = new Qry[100];
 
             for (int i = 0; i < ts3.length; i++) {
                 ts3[i] = new URLClient.Qry();
                 ts3[i].start();
             }
+
         }
+
+        // {
+        // Thread[] ts3 = new QQ[1000];
+        //
+        // for (int i = 0; i < ts3.length; i++) {
+        // ts3[i] = new URLClient.QQ();
+        // ts3[i].start();
+        // }
+        //
+        // }
 
         // Thread[] ts4 = new Shops[5];
         //
@@ -89,7 +155,8 @@ public class URLClient {
 
                     URL url = null;
                     HttpURLConnection conn = null;
-                    url = new URL("http://10.124.147.150/baiyun/requestHandler");
+                    url = new URL("http://10.123.77.91/baiyun/requestHandler");
+                    // url = new URL("http://10.123.124.147/baiyun/requestHandler");
                     conn = (HttpURLConnection) url.openConnection();
 
                     conn.setDoInput(true);
@@ -143,14 +210,24 @@ public class URLClient {
                     // }
                     // }
                     JSONObject jo = new JSONObject();
-                    jo.put("msgname", "qryroutingreq");
+                    // jo.put("msgname", "qryfltlistreq");
+                    jo.put("msgname", "concentrationreq");
                     jo.put("transactionid", "123456");
                     jo.put("msgsender", "usrclient");
                     jo.put("timestamp", "20130125111700");
 
                     JSONObject cont = new JSONObject();
-                    cont.put("srcid", 128301);
-                    cont.put("dstid", 500003);
+                    cont.put("pushtoken", "OUJHGFKYYYYYYYSDRSWAERGDXHJ");
+                    cont.put("flightdate", "2013-09-12 05:05:05");
+                    cont.put("flightnumber", "");
+                    cont.put("dstid", "CZ1234");
+                    cont.put("ostype", "1");
+                    cont.put("contype", "0");
+                    cont.put("systemversion", "5.1");
+                    cont.put("carriername", "中国移动");
+                    cont.put("airlinecode", "CZ");
+                    cont.put("fromcitycode", "PEK");
+                    cont.put("tocitycode", "CAN");
                     // cont.put("whichday", 0);
                     // cont.put("fromcity", "CAN");
                     // cont.put("tocity", "PEK");
@@ -159,7 +236,7 @@ public class URLClient {
                     URL url = null;
                     HttpURLConnection conn = null;
                     // url = new URL("http://10.124.147.150/BaiYunAirport/requestHandler");
-                    url = new URL("http://10.123.77.91/baiyun/requestHandler");
+                    url = new URL("http://10.123.76.169/BaiYunAirport/requestHandler");
                     // url = new URL("http://10.123.76.169/baiyun/requestHandler");
                     conn = (HttpURLConnection) url.openConnection();
 
@@ -172,7 +249,7 @@ public class URLClient {
                     conn.setRequestProperty("Content-Type", "text/xml");
 
                     OutputStream os = conn.getOutputStream();
-                    os.write(jo.toString().getBytes("utf-8"));
+                    os.write(securityDoCipher(jo.toString()).getBytes("utf-8"));
                     os.close();
 
                     InputStream is = conn.getInputStream();
@@ -184,7 +261,56 @@ public class URLClient {
                     System.out.printf("Qry=>tid : %d =>time: %d ms=>rslt:%s\n", this.getId(),
                             sw.getSplitTime() - p, jsonResult);
                     p = sw.getSplitTime();
-                    Thread.sleep(500);
+                    // Thread.sleep(500);
+                }
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+
+        }
+    }
+
+    public static class QQ extends Thread {
+
+        @Override
+        public void run() {
+            try {
+                long p = 0L;
+                StopWatch sw = new StopWatch();
+                sw.start();
+                while (true) {
+
+                    try {
+                        URL url = null;
+                        HttpURLConnection conn = null;
+                        // url = new URL("http://10.124.147.150/BaiYunAirport/requestHandler");
+                        url = new URL(
+                                "http://localhost/baiyun/crisisPoint/crisisPoint!hello.action");
+                        // url = new URL("http://10.123.76.169/baiyun/requestHandler");
+                        conn = (HttpURLConnection) url.openConnection();
+
+                        conn.setDoInput(true);
+                        conn.setDoOutput(true);
+                        conn.setUseCaches(false);
+                        conn.setConnectTimeout(30000);
+                        conn.setRequestMethod("POST");
+                        conn.setRequestProperty("Charset", "UTF-8");
+                        conn.setRequestProperty("Content-Type", "text/xml");
+
+                        InputStream is = conn.getInputStream();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        IOUtils.copy(is, baos);
+                        sw.split();
+
+                        String jsonResult = baos.toString("utf-8");
+                        System.out.printf("QQQ=>tid : %d =>time: %d ms=>rslt:%s\n", this.getId(),
+                                sw.getSplitTime() - p, jsonResult);
+                        p = sw.getSplitTime();
+                        Thread.sleep(50);
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
                 }
             } catch (Throwable t) {
                 t.printStackTrace();

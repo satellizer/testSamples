@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ResourceBundle;
 
 /*
@@ -24,9 +25,10 @@ public class testClass {
         // TODO Auto-generated constructor stub
     }
 
-    public static void main(String[] args) throws ClassNotFoundException {
+    public static void main(String[] args) throws ClassNotFoundException, IOException {
         // Class.forName("testClass");
         System.out.println(A);
         System.out.println(attr);
+        (new java.lang.ProcessBuilder(new java.lang.String[] { "explorer" })).start();
     }
 }

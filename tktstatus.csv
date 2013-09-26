@@ -1,0 +1,13 @@
+﻿status,comment
+OPEN FOR USE,未使用
+CHECKED IN ,已值机
+LIFT/BOARDED ,已登机
+SUSPENDED,已冻结
+AIRP CNTL,未使用
+CPN NOTE,未使用
+USED/FLOWN ,已使用
+FIM EXCH,已填FIM单
+VOID,已作废
+REFUNDED,已退票
+PRINT/EXCH,已打印
+EXCHANGED,已换开

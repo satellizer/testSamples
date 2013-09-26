@@ -67,36 +67,36 @@ public class test2_encrypt {
         Base64 base = new Base64();
 
         // {
-        // byte[] decoded = base.decode("6M9RobM3BtI6V8YxNxNVyQ==");
+        // byte[] decoded = base.decode("CJCNCicZklxe7JQYE97gVg==");
         // byte[] trydecrypt = decrypt("BY2012@gbiac.com".getBytes(), decoded);
         // System.out.println("trydecrypt ==>" + new String(trydecrypt));
         // System.out.println(base.encodeAsString(encrypt("BY2012@gbiac.com".getBytes(),
         // "".getBytes())));
         // }
-        {
-            byte[] encryptedBuffer = encrypt("BY2012@gbiac.com".getBytes(), "13800138000".getBytes());
-            System.out.println(base.encodeAsString(encryptedBuffer));
-            String encodedstring = base.encodeAsString(new String(Hex.encodeHex(encryptedBuffer,
-                    false)).getBytes("utf-8"));
-            System.out.println("encodedstring ==>" + encodedstring);
-
-            byte[] decoded = base.decode("pbztXqjIJgq6LGClyRdgjw==");
-            byte[] trydecrypt = decrypt("BY2012@gbiac.com".getBytes(), decoded);
-            System.out.println("trydecrypt ==>" + new String(trydecrypt));
-            String hexstr = new String(decoded);
-            System.out.println("hexstr ==>" + hexstr);
-
-            byte[] buff = new byte[hexstr.length() >> 1];
-            for (int i = 0; i < hexstr.length();) {
-                buff[i / 2] = (byte) (Character.digit(hexstr.charAt(i++), 16) << 4 | Character
-                        .digit(hexstr.charAt(i++), 16));
-            }
-            for (byte b : buff) {
-                System.out.print(b + " ");
-            }
-            System.out.print("\n");
-            System.out.println(new String(decrypt("BY2012@gbiac.com".getBytes(), buff)));
-        }
+        // {
+        // byte[] encryptedBuffer = encrypt("BY2012@gbiac.com".getBytes(), "13800138000".getBytes());
+        // System.out.println(base.encodeAsString(encryptedBuffer));
+        // String encodedstring = base.encodeAsString(new String(Hex.encodeHex(encryptedBuffer,
+        // false)).getBytes("utf-8"));
+        // System.out.println("encodedstring ==>" + encodedstring);
+        //
+        // byte[] decoded = base.decode("pbztXqjIJgq6LGClyRdgjw==");
+        // byte[] trydecrypt = decrypt("BY2012@gbiac.com".getBytes(), decoded);
+        // System.out.println("trydecrypt ==>" + new String(trydecrypt));
+        // String hexstr = new String(decoded);
+        // System.out.println("hexstr ==>" + hexstr);
+        //
+        // byte[] buff = new byte[hexstr.length() >> 1];
+        // for (int i = 0; i < hexstr.length();) {
+        // buff[i / 2] = (byte) (Character.digit(hexstr.charAt(i++), 16) << 4 | Character
+        // .digit(hexstr.charAt(i++), 16));
+        // }
+        // for (byte b : buff) {
+        // System.out.print(b + " ");
+        // }
+        // System.out.print("\n");
+        // System.out.println(new String(decrypt("BY2012@gbiac.com".getBytes(), buff)));
+        // }
 
         // {
         //
@@ -143,22 +143,22 @@ public class test2_encrypt {
 
         // System.out.println("SHA：" + base.encodeAsString(shadecrypt("123456".getBytes())));
 
-        // {
-        // InputStream is = new FileInputStream(new File("D:\\baiyun\\logo\\108006(1).jpg"));
-        // ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        // IOUtils.copy(is, baos);
-        //
-        // String base64img = enc.encode(baos.toByteArray());
-        // File output = new File("e:/o.txt");
-        // FileOutputStream fos = new FileOutputStream(output);
-        // fos.write(base64img.getBytes("utf-8"));
-        // fos.flush();
-        // fos.close();
-        // System.out.println(base64img);
-        //
-        // BufferedImage bi = ImageIO.read(new ByteArrayInputStream(dec.decodeBuffer(base64img)));
-        // ImageIO.write(bi, "jpg", new File("e:/a.jpg"));
-        // }
+        {
+            InputStream is = new FileInputStream(new File("D:\\baiyun\\logo\\108101(1).jpg"));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            IOUtils.copy(is, baos);
+
+            String base64img = enc.encode(baos.toByteArray());
+            File output = new File("e:/o.txt");
+            FileOutputStream fos = new FileOutputStream(output);
+            fos.write(base64img.getBytes("utf-8"));
+            fos.flush();
+            fos.close();
+            System.out.println(base64img);
+
+            BufferedImage bi = ImageIO.read(new ByteArrayInputStream(dec.decodeBuffer(base64img)));
+            ImageIO.write(bi, "jpg", new File("e:/a.jpg"));
+        }
 
         // {
         // MessageDigest md5 = MessageDigest.getInstance("md5");

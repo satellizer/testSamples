@@ -1,5 +1,6 @@
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.Proxy.Type;
@@ -47,7 +48,8 @@ public class test12 {
         // System.out.println(tomorrow.toString());
         // }
         try {
-            Socket s = new Socket(new Proxy(Type.HTTP, new InetSocketAddress("10.123.74.137", 808)));
+            Socket s = new Socket(
+                    new Proxy(Type.SOCKS, new InetSocketAddress("10.123.74.137", 808)));
             s.connect(new InetSocketAddress("http://www.baidu.com", 80));
             close(s.getInputStream(), s.getOutputStream(), s);
         } catch (IOException e) {

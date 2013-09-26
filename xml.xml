@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<travelsky>
+<msgname>smsportalreq</msgname>
+<transactionid>1358757647719</transactionid>
+<timestamp>20130114120301</timestamp>
+<msgsender>usrclient</msgsender>
+<cont>
+<telnumber>DnuRCg59eXRCIlnLe/UwNA==</telnumber>
+<salt>123456</salt>
+<uniquecheck>1</uniquecheck>
+<criterion>0</criterion>
+</cont>
+</travelsky>
